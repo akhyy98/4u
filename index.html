@@ -1,0 +1,676 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For Harnoor Mam Ji 💌</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --bg-cream: #fff7fa;
+      --card-bg: #ffffff;
+      --accent-pink: #ff7597;
+      --deep-rose: #e63968;
+      --dark-text: #2f2a2e;
+      --denim-blue: #4a6fa5;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: radial-gradient(circle at top, #ffeef3, #fff0f5 55%, #fbe7f0);
+      font-family: 'Nunito', sans-serif;
+      color: var(--dark-text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px 14px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Ambient floating stars */
+    .sparkle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.35;
+      animation: floatSparkle 4s ease-in-out infinite alternate;
+    }
+    @keyframes floatSparkle {
+      0% { transform: translateY(0px) rotate(0deg); }
+      100% { transform: translateY(-14px) rotate(10deg); }
+    }
+
+    .container {
+      width: 100%;
+      max-width: 480px;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* View transitions */
+    .screen {
+      display: none;
+      animation: popIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .screen.active {
+      display: block;
+    }
+    @keyframes popIn {
+      from { opacity: 0; transform: translateY(12px) scale(0.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 30px;
+      box-shadow: 0 18px 45px rgba(230, 57, 104, 0.12), 0 4px 12px rgba(0,0,0,0.03);
+      border: 2.5px solid rgba(255, 182, 193, 0.65);
+      padding: 32px 24px;
+      text-align: center;
+      position: relative;
+    }
+
+    .svg-graphic {
+      width: 210px;
+      height: 210px;
+      margin: 0 auto 12px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      color: #2b2b2b;
+      font-size: 1.6rem;
+      font-weight: 700;
+      line-height: 1.35;
+      margin-bottom: 20px;
+    }
+
+    .btn-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      margin-top: 14px;
+    }
+
+    .btn {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 1.05rem;
+      border: none;
+      border-radius: 999px;
+      padding: 13px 30px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn:active {
+      transform: scale(0.94);
+    }
+
+    .btn-yes {
+      background: linear-gradient(135deg, #ff7597, #e63968);
+      color: #ffffff;
+      box-shadow: 0 8px 20px rgba(230, 57, 104, 0.35);
+    }
+
+    .btn-no {
+      background: #f1f3f5;
+      color: #495057;
+      border: 2px solid #dee2e6;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .btn-retry {
+      background: linear-gradient(135deg, #e63968, #c2255c);
+      color: #ffffff;
+      padding: 14px 36px;
+      font-size: 1.1rem;
+      box-shadow: 0 8px 22px rgba(194, 37, 92, 0.35);
+    }
+
+    /* Screen 3: Scrapbook Stationery Letter */
+    .letter-card {
+      position: relative;
+      background: #faf7f0;
+      background-image: 
+        radial-gradient(#ded7ca 1px, transparent 1px),
+        radial-gradient(#ded7ca 1px, #faf7f0 1px);
+      background-size: 24px 24px;
+      background-position: 0 0, 12px 12px;
+      border-radius: 26px;
+      border: 3.5px solid #4a6fa5;
+      box-shadow: 0 20px 48px rgba(74, 111, 165, 0.22);
+      padding: 60px 24px 28px 24px;
+      overflow: hidden;
+    }
+
+    /* Denim tape edges and corners */
+    .denim-patch-tl {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 80px;
+      height: 70px;
+      background: #4a6fa5;
+      clip-path: polygon(0 0, 100% 0, 0 100%);
+      opacity: 0.85;
+      z-index: 1;
+    }
+
+    .denim-patch-br {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 85px;
+      height: 75px;
+      background: #4a6fa5;
+      clip-path: polygon(100% 0, 100% 100%, 0 100%);
+      opacity: 0.85;
+      z-index: 1;
+    }
+
+    .scrap-cat-tl {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      width: 52px;
+      height: 52px;
+      z-index: 2;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+    }
+
+    .scrap-cat-br {
+      position: absolute;
+      bottom: 12px;
+      right: 14px;
+      width: 54px;
+      height: 54px;
+      z-index: 2;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+    }
+
+    .stars-tr {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .stars-bl {
+      position: absolute;
+      bottom: 12px;
+      left: 16px;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .letter-scroll-area {
+      position: relative;
+      z-index: 3;
+      font-family: 'Caveat', cursive;
+      font-size: 1.35rem;
+      line-height: 1.55;
+      color: #2b2b2b;
+      max-height: 440px;
+      overflow-y: auto;
+      padding-right: 6px;
+      white-space: pre-line;
+      text-align: left;
+    }
+
+    .letter-scroll-area::-webkit-scrollbar {
+      width: 6px;
+    }
+    .letter-scroll-area::-webkit-scrollbar-thumb {
+      background: #ffb3c6;
+      border-radius: 8px;
+    }
+
+    .btn-next {
+      background: linear-gradient(135deg, #ff7597, #e63968);
+      color: #ffffff;
+      width: 100%;
+      padding: 14px;
+      margin-top: 18px;
+      border-radius: 999px;
+      font-size: 1.1rem;
+      box-shadow: 0 8px 24px rgba(230, 57, 104, 0.35);
+    }
+
+    /* Screen 4: Music Player */
+    .vinyl-box {
+      width: 140px;
+      height: 140px;
+      margin: 10px auto 20px auto;
+      position: relative;
+    }
+
+    .vinyl {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: radial-gradient(circle, #212529 36%, #0f1113 72%);
+      border: 3.5px solid #ffb3c6;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.22);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: spin 5s linear infinite;
+      animation-play-state: paused;
+    }
+
+    .vinyl.spinning {
+      animation-play-state: running;
+    }
+
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
+    }
+
+    .vinyl-core {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: #ff7597;
+      border: 3px solid #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      color: #ffffff;
+    }
+
+    audio {
+      width: 100%;
+      height: 42px;
+      border-radius: 20px;
+      margin-top: 10px;
+    }
+
+    .signature-badge {
+      margin-top: 16px;
+      background: #fff0f5;
+      border: 2px dashed #ffa8ba;
+      border-radius: 18px;
+      padding: 12px 18px;
+      font-family: 'Caveat', cursive;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #e63968;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient decorative sparkles -->
+  <div class="sparkle" style="top: 8%; left: 8%; font-size: 1.8rem;">✨</div>
+  <div class="sparkle" style="top: 20%; right: 10%; font-size: 1.6rem; animation-delay: 1.5s;">🌷</div>
+  <div class="sparkle" style="bottom: 12%; left: 10%; font-size: 1.8rem; animation-delay: 2s;">💖</div>
+  <div class="sparkle" style="bottom: 18%; right: 8%; font-size: 1.6rem; animation-delay: 0.8s;">🐾</div>
+
+  <div class="container">
+
+    <!-- ================= SCREEN 1: CAT HOLDING LETTER ================= -->
+    <div id="screen1" class="screen active">
+      <div class="card">
+        
+        <!-- SVG Graphic: Cat with Bow Holding Heart Letter with Hearts -->
+        <div class="svg-graphic">
+          <svg viewBox="0 0 240 230" width="100%" height="100%">
+            <!-- Floating Floating Hearts -->
+            <path d="M 40 70 C 40 60 25 58 25 72 C 25 85 45 95 45 100 C 45 95 65 85 65 72 C 65 58 50 60 50 70 Z" fill="#ff7597" opacity="0.8"/>
+            <path d="M 195 60 C 195 52 182 50 182 62 C 182 73 200 82 200 86 C 200 82 218 73 218 62 C 218 50 205 52 205 60 Z" fill="#ff7597" opacity="0.8"/>
+            <path d="M 38 125 C 38 117 26 115 26 127 C 26 138 43 147 43 151 C 43 147 60 138 60 127 C 60 115 48 117 48 125 Z" fill="#ff85a2" opacity="0.6"/>
+            <path d="M 202 128 C 202 120 190 118 190 130 C 190 141 207 150 207 154 C 207 150 224 141 224 130 C 224 118 212 120 212 128 Z" fill="#ff85a2" opacity="0.6"/>
+
+            <!-- Cat Ears -->
+            <path d="M 78 88 L 68 45 L 104 66" fill="#ffffff" stroke="#1f2937" stroke-width="5" stroke-linejoin="round"/>
+            <path d="M 162 88 L 172 45 L 136 66" fill="#ffffff" stroke="#1f2937" stroke-width="5" stroke-linejoin="round"/>
+
+            <!-- Pink Bow on Right Ear -->
+            <g transform="translate(162, 58) rotate(15)">
+              <polygon points="0,0 -16,-12 -14,12" fill="#ff85a2" stroke="#d6336c" stroke-width="2"/>
+              <polygon points="0,0 16,-12 14,12" fill="#ff85a2" stroke="#d6336c" stroke-width="2"/>
+              <circle cx="0" cy="0" r="5" fill="#e63968"/>
+            </g>
+
+            <!-- Kitty Head -->
+            <path d="M 72 88 C 65 110 65 130 80 145 C 95 155 145 155 160 145 C 175 130 175 110 168 88 C 160 70 80 70 72 88 Z" fill="#ffffff" stroke="#1f2937" stroke-width="5"/>
+
+            <!-- Forehead Stripes -->
+            <line x1="112" y1="58" x2="112" y2="72" stroke="#cbd5e1" stroke-width="4.5" stroke-linecap="round"/>
+            <line x1="120" y1="54" x2="120" y2="72" stroke="#cbd5e1" stroke-width="4.5" stroke-linecap="round"/>
+            <line x1="128" y1="58" x2="128" y2="72" stroke="#cbd5e1" stroke-width="4.5" stroke-linecap="round"/>
+
+            <!-- Whiskers -->
+            <line x1="68" y1="96" x2="48" y2="92" stroke="#1f2937" stroke-width="4" stroke-linecap="round"/>
+            <line x1="68" y1="106" x2="46" y2="108" stroke="#1f2937" stroke-width="4" stroke-linecap="round"/>
+            <line x1="172" y1="96" x2="192" y2="92" stroke="#1f2937" stroke-width="4" stroke-linecap="round"/>
+            <line x1="172" y1="106" x2="194" y2="108" stroke="#1f2937" stroke-width="4" stroke-linecap="round"/>
+
+            <!-- Cute Eyes & Blush -->
+            <circle cx="98" cy="110" r="4.5" fill="#1f2937"/>
+            <circle cx="142" cy="110" r="4.5" fill="#1f2937"/>
+            <ellipse cx="86" cy="116" rx="9" ry="5.5" fill="#fda4af" opacity="0.8"/>
+            <ellipse cx="154" cy="116" rx="9" ry="5.5" fill="#fda4af" opacity="0.8"/>
+            <path d="M 114 114 Q 120 120 126 114" fill="none" stroke="#1f2937" stroke-width="4" stroke-linecap="round"/>
+
+            <!-- Letter Envelope with Heart -->
+            <g transform="translate(68, 120)">
+              <rect x="0" y="0" width="104" height="66" rx="8" fill="#ffe4ea" stroke="#1f2937" stroke-width="4.5"/>
+              <polyline points="0,0 52,38 104,0" fill="none" stroke="#1f2937" stroke-width="4.5" stroke-linejoin="round"/>
+              <polyline points="0,66 40,32" fill="none" stroke="#ff7597" stroke-width="2.5"/>
+              <polyline points="104,66 64,32" fill="none" stroke="#ff7597" stroke-width="2.5"/>
+              <path d="M 52 40 C 52 35 45 33 45 40 C 45 47 52 51 52 54 C 52 51 59 47 59 40 C 59 33 52 35 52 40 Z" fill="#e63968"/>
+            </g>
+
+            <!-- Paws -->
+            <circle cx="70" cy="138" r="12" fill="#ffffff" stroke="#1f2937" stroke-width="4"/>
+            <circle cx="170" cy="138" r="12" fill="#ffffff" stroke="#1f2937" stroke-width="4"/>
+
+            <!-- Feet -->
+            <ellipse cx="94" cy="188" rx="13" ry="8" fill="#ffffff" stroke="#1f2937" stroke-width="4"/>
+            <ellipse cx="146" cy="188" rx="13" ry="8" fill="#ffffff" stroke="#1f2937" stroke-width="4"/>
+          </svg>
+        </div>
+
+        <h1>do you want to see the letter?</h1>
+
+        <div class="btn-row">
+          <button class="btn btn-yes" onclick="goToScreen(3)">Yes 💖</button>
+          <button class="btn btn-no" onclick="goToScreen(2)">No 😿</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ================= SCREEN 2: CRYING EMOJI ================= -->
+    <div id="screen2" class="screen">
+      <div class="card">
+        
+        <!-- SVG Graphic: Crying Emoji with Pink Bow, Tears, Tulip -->
+        <div class="svg-graphic">
+          <svg viewBox="0 0 220 220" width="100%" height="100%">
+            <!-- Sparkles -->
+            <polygon points="35,45 38,35 48,38 38,41 35,51 32,41 22,38 32,35" fill="#fde047"/>
+            <polygon points="185,45 188,35 198,38 188,41 185,51 182,41 172,38 182,35" fill="#fde047"/>
+
+            <!-- Yellow Head Gradient -->
+            <defs>
+              <radialGradient id="cryGrad" cx="35%" cy="32%" r="68%">
+                <stop offset="0%" stop-color="#ffe675"/>
+                <stop offset="70%" stop-color="#facc15"/>
+                <stop offset="100%" stop-color="#eab308"/>
+              </radialGradient>
+            </defs>
+            <circle cx="110" cy="115" r="68" fill="url(#cryGrad)" stroke="#ca8a04" stroke-width="2.5"/>
+
+            <!-- Pink Bow on Head -->
+            <g transform="translate(148, 70) rotate(22)">
+              <polygon points="0,0 -20,-14 -18,14" fill="#f472b6" stroke="#be185d" stroke-width="2"/>
+              <polygon points="0,0 20,-14 18,14" fill="#f472b6" stroke="#be185d" stroke-width="2"/>
+              <circle cx="0" cy="0" r="6" fill="#db2777"/>
+            </g>
+
+            <!-- Sad Arched Eyebrows -->
+            <path d="M 74 90 Q 88 80 102 92" fill="none" stroke="#713f12" stroke-width="5" stroke-linecap="round"/>
+            <path d="M 146 90 Q 132 80 118 92" fill="none" stroke="#713f12" stroke-width="5" stroke-linecap="round"/>
+
+            <!-- Closed Sad Eyes -->
+            <path d="M 74 104 Q 88 94 102 104" fill="none" stroke="#713f12" stroke-width="5" stroke-linecap="round"/>
+            <path d="M 118 104 Q 132 94 146 104" fill="none" stroke="#713f12" stroke-width="5" stroke-linecap="round"/>
+
+            <!-- Streaming Blue Tears -->
+            <path d="M 78 108 L 78 170 Q 87 178 96 170 L 96 108 Z" fill="#38bdf8" stroke="#0284c7" stroke-width="2"/>
+            <path d="M 124 108 L 124 170 Q 133 178 142 170 L 142 108 Z" fill="#38bdf8" stroke="#0284c7" stroke-width="2"/>
+
+            <!-- Open Wailing Mouth with Tooth -->
+            <path d="M 94 132 Q 110 122 126 132 Q 126 160 110 160 Q 94 160 94 132 Z" fill="#7f1d1d" stroke="#713f12" stroke-width="3"/>
+            <path d="M 100 133 Q 110 128 120 133 L 120 138 Q 110 135 100 138 Z" fill="#ffffff"/>
+
+            <!-- Hand holding Pink Tulip -->
+            <g transform="translate(54, 130)">
+              <path d="M 24 28 Q 18 0 22 -22" stroke="#16a34a" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+              <path d="M 22 8 Q 8 4 10 -8 Q 20 0 22 5" fill="#22c55e"/>
+              <path d="M 22 -4 Q 34 -6 32 -18 Q 24 -10 22 -5" fill="#22c55e"/>
+              <g transform="translate(20, -28)">
+                <path d="M 0 0 C -14 -6 -12 -24 0 -26 C 12 -24 14 -6 0 0 Z" fill="#f43f5e"/>
+                <path d="M -9 -9 C -16 -16 -10 -27 -3 -24 C -7 -16 -5 -11 -9 -9 Z" fill="#fb7185"/>
+                <path d="M 9 -9 C 16 -16 10 -27 3 -24 C 7 -16 5 -11 9 -9 Z" fill="#fb7185"/>
+              </g>
+              <!-- Fist -->
+              <rect x="12" y="24" width="24" height="28" rx="12" fill="#fed7aa" stroke="#fdba74" stroke-width="2"/>
+              <circle cx="24" cy="28" r="5.5" fill="#fed7aa"/>
+              <circle cx="24" cy="36" r="5.5" fill="#fed7aa"/>
+              <circle cx="24" cy="44" r="5.5" fill="#fed7aa"/>
+            </g>
+          </svg>
+        </div>
+
+        <h1 style="font-size: 1.35rem; color: #e63968; margin-bottom: 12px;">
+          don't you love me kammo ji 😭?
+        </h1>
+        <p style="font-weight: 700; color: #495057; font-size: 1.05rem; line-height: 1.45; margin-bottom: 24px;">
+          Why did you choose no? Chlo yes kroo jldi jldi 😭 plz
+        </p>
+
+        <button class="btn btn-retry" onclick="goToScreen(1)">
+          Try Again 🔄😿
+        </button>
+
+      </div>
+    </div>
+
+    <!-- ================= SCREEN 3: SCRAPBOOK LETTER ================= -->
+    <div id="screen3" class="screen">
+      <div class="letter-card">
+        
+        <!-- Denim corner patches -->
+        <div class="denim-patch-tl"></div>
+        <div class="denim-patch-br"></div>
+
+        <!-- Inline SVG Cute Kittens matching Image 4 -->
+        <div class="scrap-cat-tl">
+          <svg viewBox="0 0 60 60" width="100%" height="100%">
+            <!-- Grey Tabby Head -->
+            <polygon points="12,24 8,8 24,18" fill="#a8a29e" stroke="#ffffff" stroke-width="1.5"/>
+            <polygon points="48,24 52,8 36,18" fill="#a8a29e" stroke="#ffffff" stroke-width="1.5"/>
+            <circle cx="30" cy="30" r="18" fill="#e7e5e4" stroke="#ffffff" stroke-width="2"/>
+            <ellipse cx="23" cy="30" rx="3" ry="4" fill="#1c1917"/>
+            <ellipse cx="37" cy="30" rx="3" ry="4" fill="#1c1917"/>
+            <circle cx="24" cy="29" r="1" fill="#ffffff"/>
+            <circle cx="38" cy="29" r="1" fill="#ffffff"/>
+            <polygon points="30,34 27,37 33,37" fill="#f43f5e"/>
+            <line x1="20" y1="34" x2="10" y2="33" stroke="#78716c" stroke-width="1.2"/>
+            <line x1="40" y1="34" x2="50" y2="33" stroke="#78716c" stroke-width="1.2"/>
+          </svg>
+        </div>
+
+        <div class="scrap-cat-br">
+          <svg viewBox="0 0 60 60" width="100%" height="100%">
+            <!-- Ginger Cat Head -->
+            <polygon points="12,24 8,8 24,18" fill="#f97316" stroke="#ffffff" stroke-width="1.5"/>
+            <polygon points="48,24 52,8 36,18" fill="#f97316" stroke="#ffffff" stroke-width="1.5"/>
+            <circle cx="30" cy="30" r="18" fill="#fed7aa" stroke="#ffffff" stroke-width="2"/>
+            <ellipse cx="23" cy="30" rx="3.5" ry="4.5" fill="#1c1917"/>
+            <ellipse cx="37" cy="30" rx="3.5" ry="4.5" fill="#1c1917"/>
+            <circle cx="24" cy="29" r="1.2" fill="#ffffff"/>
+            <circle cx="38" cy="29" r="1.2" fill="#ffffff"/>
+            <polygon points="30,34 27,37 33,37" fill="#f43f5e"/>
+            <ellipse cx="30" cy="46" rx="9" ry="6" fill="#fed7aa"/>
+          </svg>
+        </div>
+
+        <!-- Denim Stars -->
+        <div class="stars-tr">
+          <span style="color: #4a6fa5; font-size: 1.6rem; line-height: 1;">★</span>
+          <span style="color: #6b8bb8; font-size: 1.1rem; line-height: 1;">★</span>
+        </div>
+
+        <div class="stars-bl">
+          <span style="color: #4a6fa5; font-size: 1.6rem; line-height: 1;">★</span>
+          <span style="color: #6b8bb8; font-size: 1.1rem; line-height: 1;">★</span>
+        </div>
+
+        <!-- Letter Body Content -->
+        <div class="letter-scroll-area">Hlo meri achi achi harnoor mam ji 🦜✨ . Mujhe nah ye letter wagera likhne noi aati but let me try for you 😭
+
+Toh dekhiye mam ji Ik ki me aapka bohot mood kharab krdeta hu aapse shyd ache se baat bhi ni krta aapko Happiee happie bhi noi rkhta bs gussa dilwata rehta hu humesha 😭 aur faltu ki harkatien krta rehta hu humesha 😭 aur bs aapko gussa dilwata hu aapka mood off krdeta hu pr nhh me nah schi mei aapse zyada ache se kisise baat noi krta 😭 aur aapka mood bhi intentionally kharab noi krta 🙂‍↕️ woh pta ni kaise krdeta hu me toh humesha sochta hu ki you se achi achi baatein krunga bohot bohot zyada baatein krunga pr phir aapka mood kharab krdeta hu 😭😭 uske liye nah bohot bohot saari sorry aapse 🙇🏻 me toh aapka acha acha sa bhondu sa bchu hu nah 👉🏻👈🏻 isliye mujhe maaf krdena uske liye 😋✨ pr me try krta hu ki na kru pr me seekh jaunga you ko happy happy krne ke tarikeeeeeeee 🙇🏻 phir aapka mood kharab noi hoga zyada 😭 aur nah ek aur cheez you nah mere se gussa hojao naraz hojao ya humari ladai hojaye kch bhi hojaye you mereko maar lena kch bhi krlena bs msg Krna bnd mat Krna plmzzz 😭✨ gaali bhi chlegi bs msg krte rehna 🙇🏻 aur mujhe ye hmm hmm se bohot lgta hai mujhe nah meri talktive aur mastikhor wali harnoor mam achi lgti hai ye sad wali hmm hmm bolne wali mam ji bhi achi hai pr harnoor aise zyada achi noi lgti i love youu so mchhh youu khush khush Raha kriye bs 😋🫶🏻 me bhi aapka mood kam hi kharab krunga dhire dhire you ko khush krne ke tarikeeeeeeee seekh lunga 😋🫶🏻 aur ache se baat Krna bhi seekh lunga 😭☝🏻 baaki i love you so mch 😭✨ but that doesn't mean ki aap mereko hi banda bna lo it totally depends on you aap kisi bhi ache ladke ko bna skti hai 🙇🏻 bs mujhe noi bhulna mujhe mujhe nah aapko bandi bnane ka bohot Mann krta hai mera pehle mann ni tha kisi ko bhi girlfriend wagera bnane ka 😭☝🏻 pr nah it was like ki me bs kisi ko hurt noi Krna chahta me noi chahta ki me sad krdu time na de pau trust na tod di aur looks insecurity jo mujhe humesha se hai me acha bhi noi dikhta isliye bs pr me you ko bohot psnd krta hu 😋🫶🏻✨ me ache se baat wagera bhi Krna seekh lunga 😭☝🏻 aur uh ko happy rkhna bhi 🙇🏻 you to meri pyaari pyaari kammo ji ho 😭✨ you bs khush Raha kriye bohot ache lgte ho aur nh sorry if I ever made you gussa aur kch bhi kiya ho toh sbke liye sorry me toh off wagera toh noi jaane wala tha pr aapko boldiya tha kyuki Mera nah thoda mood kharab hogya tha 😭☝🏻 aur agr me reply wagera nhi deta ya online nhi aata toh shyd aapka bhi hojata isliye maine aisa boldiya ki me off jaara hu pr me off chla gya toh aapse baat kiye bina pura din kharab chle jayega 😭🛐 isliye me off wagera toh noi jaara aur nh i love youuu so mchhhhh mereko ache se kaise bolna hota hai woh toh nhi pta pr i love you 😋🫶🏻 bohot saara . Aap nah mereko block bhi kr skti ho agr ye letter wali harkat buri lge toh but nh bs mereko bta ke Krna 😭☝🏻 pichli baar toh maine bohot koshish kri aapki I'd bhi ni milti kahi pr na msg kr skta tha woh toh bs acha hua ki aapne unblock krdiya 🛐✨ baaki toh bs itna hi tha mam jiii i love you so mchhhhh 🧿🎀 hehe
+
+And again sry for anything I've done and love you toh hai hi meri cutie ko bohot saara 😋🫶🏻✨
+
+I hope aapko acha lge nh lge toh maaf krdena 🙂‍↕️</div>
+
+      </div>
+
+      <button class="btn btn-next" onclick="goToScreen(4)">
+        One last thing for you... 🎵✨
+      </button>
+    </div>
+
+    <!-- ================= SCREEN 4: MUSIC & FINALE ================= -->
+    <div id="screen4" class="screen">
+      <div class="card">
+        
+        <!-- SVG Graphic: Cute Kitten with Pink Bow and Tulips (Image 1) -->
+        <div class="svg-graphic" style="width: 170px; height: 170px; margin-bottom: 6px;">
+          <svg viewBox="0 0 200 200" width="100%" height="100%">
+            <!-- Bow on Ear -->
+            <g transform="translate(142, 42) rotate(25)">
+              <polygon points="0,0 -16,-11 -14,11" fill="#f472b6" stroke="#db2777" stroke-width="1.8"/>
+              <polygon points="0,0 16,-11 14,11" fill="#f472b6" stroke="#db2777" stroke-width="1.8"/>
+              <circle cx="0" cy="0" r="4.5" fill="#be185d"/>
+            </g>
+
+            <!-- Kitten Head -->
+            <polygon points="62,70 48,30 84,48" fill="#64748b" stroke="#334155" stroke-width="3"/>
+            <polygon points="138,70 152,30 116,48" fill="#64748b" stroke="#334155" stroke-width="3"/>
+            <ellipse cx="100" cy="85" rx="46" ry="40" fill="#f8fafc" stroke="#334155" stroke-width="3"/>
+            <path d="M 68 58 Q 100 48 132 58 Q 100 74 68 58 Z" fill="#94a3b8"/>
+
+            <!-- Big cute cat eyes -->
+            <ellipse cx="85" cy="84" rx="7.5" ry="9" fill="#0f172a"/>
+            <circle cx="87" cy="82" r="3" fill="#ffffff"/>
+            <ellipse cx="115" cy="84" rx="7.5" ry="9" fill="#0f172a"/>
+            <circle cx="117" cy="82" r="3" fill="#ffffff"/>
+
+            <!-- Nose & Tongue -->
+            <polygon points="100,94 96,91 104,91" fill="#f43f5e"/>
+            <path d="M 98 96 Q 108 98 106 106 Q 100 110 97 101 Z" fill="#fb7185"/>
+
+            <!-- Body -->
+            <path d="M 72 118 Q 66 160 100 160 Q 134 160 128 118 Z" fill="#f1f5f9" stroke="#334155" stroke-width="3"/>
+
+            <!-- Fist holding Tulip Bouquet -->
+            <g transform="translate(42, 92)">
+              <!-- Tulips -->
+              <path d="M 16 12 Q 10 -15 14 -28" stroke="#16a34a" stroke-width="3.5" fill="none"/>
+              <path d="M 24 12 Q 28 -12 32 -26" stroke="#16a34a" stroke-width="3.5" fill="none"/>
+              <path d="M 20 12 Q 20 -10 20 -30" stroke="#16a34a" stroke-width="3.5" fill="none"/>
+              <!-- Flowers -->
+              <ellipse cx="14" cy="-28" rx="8" ry="12" fill="#fb7185"/>
+              <ellipse cx="32" cy="-26" rx="8" ry="12" fill="#f43f5e"/>
+              <ellipse cx="22" cy="-34" rx="9" ry="13" fill="#ff7597"/>
+              <!-- Hand -->
+              <rect x="8" y="10" width="22" height="26" rx="10" fill="#fed7aa" stroke="#fba774" stroke-width="1.8"/>
+            </g>
+          </svg>
+        </div>
+
+        <h1 style="color: #e63968; font-size: 1.6rem; margin-bottom: 6px;">
+          I love you kammo ji 🌷🫶🏻✨
+        </h1>
+        <p style="font-weight: 800; color: #495057; font-size: 1.25rem; margin-bottom: 18px;">
+          Tainu sang rakhna humeshaaa 🛐✨
+        </p>
+
+        <!-- Spinning Vinyl Player -->
+        <div class="vinyl-box">
+          <div id="vinylDisc" class="vinyl">
+            <div class="vinyl-core">🎵</div>
+          </div>
+        </div>
+
+        <!-- HTML5 Audio loading ONLY song.mp3 locally -->
+        <audio id="localAudio" controls loop>
+          <source src="song.mp3" type="audio/mpeg">
+          Your browser does not support audio element.
+        </audio>
+
+        <div class="signature-badge">
+          You ka bhondu akhil 🫶🏻
+        </div>
+
+        <!-- Confetti Shower Button -->
+        <button class="btn btn-yes" style="margin-top: 18px; width: 100%;" onclick="showerLove()">
+          Shower Love 💖✨
+        </button>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const audio = document.getElementById('localAudio');
+    const vinyl = document.getElementById('vinylDisc');
+
+    function goToScreen(num) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      const nextScreen = document.getElementById('screen' + num);
+      if (nextScreen) nextScreen.classList.add('active');
+
+      if (num === 4) {
+        showerLove();
+        audio.play().then(() => {
+          vinyl.classList.add('spinning');
+        }).catch(() => {
+          // If browser requires tap to play
+        });
+      }
+    }
+
+    audio.addEventListener('play', () => vinyl.classList.add('spinning'));
+    audio.addEventListener('pause', () => vinyl.classList.remove('spinning'));
+
+    function showerLove() {
+      confetti({
+        particleCount: 85,
+        spread: 80,
+        origin: { y: 0.65 },
+        colors: ['#ff7597', '#e63968', '#fecdd3', '#fde047', '#4a6fa5']
+      });
+    }
+  </script>
+</body>
+</html>
+```
